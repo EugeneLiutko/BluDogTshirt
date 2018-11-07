@@ -1,0 +1,67 @@
+﻿@using EuluBlueMarket.Models 
+@model RegisterModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Registration Qwerty_1234</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <hr />
+        @Html.ValidationSummary(false)
+
+        <div>
+            Name
+            <div>
+                @Html.EditorFor(model => model.Name)
+            </div>
+        </div>
+
+        <div>
+            Second Name
+            <div>
+                @Html.EditorFor(model => model.SecondName)
+            </div>
+        </div>
+
+        <div>
+            Phone
+            <div>
+                @Html.EditorFor(model => model.Phone)
+            </div>
+        </div>
+
+        <div>
+            E-mail
+            <div>
+                @Html.EditorFor(model => model.Email)
+            </div>
+        </div>
+
+        <div>
+            Password
+            <div>
+                @Html.EditorFor(model => model.Password)
+            </div>
+        </div>
+
+        <div>
+            Confirm Password
+            <div>
+                @Html.EditorFor(model => model.PasswordConfirm)
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <input type="submit" value="Register" />
+            </div>
+        </div>
+    </div>
+}
