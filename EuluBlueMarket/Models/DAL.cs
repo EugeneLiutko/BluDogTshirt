@@ -8,9 +8,21 @@ namespace EuluBlueMarket.Models
 {
     public class DAL
     {
+        public void GetAllLots()
+        {
+
+        }
+        public void GetLot()
+        {
+
+        }
         public void AddLot()
         {
             
+        }
+        public void DeleteLot()
+        {
+
         }
     }
 }

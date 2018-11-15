@@ -32,7 +32,7 @@ namespace EuluBlueMarket.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { Name = model.Name, SecondName = model.SecondName, Phone = model.Phone, Email = model.Email };
+                ApplicationUser user = new ApplicationUser { UserName = model.Email, FirstName = model.FirstName, SecondName = model.SecondName, Phone = model.Phone, Email = model.Email };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

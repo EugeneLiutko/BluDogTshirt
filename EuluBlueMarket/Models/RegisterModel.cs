@@ -10,7 +10,7 @@ namespace EuluBlueMarket.Models
     {      
 
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         public string SecondName { get; set; }
