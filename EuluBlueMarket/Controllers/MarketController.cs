@@ -13,9 +13,22 @@ namespace EuluBlueMarket.Controllers
         [HttpGet]
         public ActionResult AddLot()
         {
+            Console.WriteLine("F");
             return View("AddLot");
         }
-       
+        [HttpPost]
+        public ActionResult AddLot(MarketItem TempItem, HttpPostedFileBase upload)
+        {
+            Console.WriteLine("N1");
+            if (upload != null)
+            {
+                Console.WriteLine("N2");
+                string fileName = System.IO.Path.GetFileName(upload.FileName);
+                upload.SaveAs(Server.MapPath("~/Files/" + fileName));
+            }
+            Console.WriteLine("N3");
+            return View("MainPage");
+        }
         public ActionResult Main()
         {
             return View("MainPage");
@@ -24,36 +37,12 @@ namespace EuluBlueMarket.Controllers
         {
             return View("Setting");
         }
-
         [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Ha()
-        {
-            return View("Hahaha");
-        }
-
-        [HttpPost]
-        public ActionResult AddLot(MarketItem TempItem)
-        {
-            ViewBag.Yes = "Yes";
-            return View("AddLot");
-        }
-
-        [HttpPost]
-        public async void Upload(HttpPostedFileBase upload)
-        {
-            if (upload != null)
-            {
-                // получаем имя файла
-                string fileName = System.IO.Path.GetFileName(upload.FileName);
-                // сохраняем файл в папку Files в проекте
-                upload.SaveAs(Server.MapPath("~/Files/" + fileName));
-            }
-            //return RedirectToAction("Main");
-        }
+        
     }
 }

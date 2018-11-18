@@ -23,6 +23,7 @@ namespace EuluBlueMarket.Models
         public void DeleteLot()
         {
 
+
         }
     }
 }
