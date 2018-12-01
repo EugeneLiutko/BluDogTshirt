@@ -1,0 +1,35 @@
+﻿
+@using EuluBlueMarket.Models
+@model MarketItem
+<div id="HelpNav">
+    <div id="Navigation">
+        @*No NavigationModel*@
+        @for (int i = 1; i <=8; ++i)
+        {
+            <a href=" style="background-color: silver; opacity:0.7; font-size: 20px; height: 30px; width:auto; min-width:30px" class="badge badge-light">@i</a>
+        }
+
+        @*Model.NavigationModel_.MaxPages*@
+        @*"@Url.Content("~/Store/ProductsView/" + Model.ThisCategory + "/" + i)"*@
+
+        @*if (i == Model.NavigationModel_.SelectedPage)
+            {
+                <a href="@Url.Content("~/Store/ProductsView/" + Model.ThisCategory + "/" + i)" style="background-color: silver; opacity:0.7; font-size: 20px; height: 30px; width:auto; min-width:30px" class="badge badge-light">@i</a>
+            }
+            else
+            {
+                if (Model.NavigationModel_.SelectedPage - 2 == i || Model.NavigationModel_.SelectedPage - 1 == i || Model.NavigationModel_.SelectedPage + 2 == i || Model.NavigationModel_.SelectedPage + 1 == i || i == 1 || i == Model.NavigationModel_.MaxPages) //Selected page != 40
+                {
+                    <a href="@Url.Content("~/Store/ProductsView/" + Model.ThisCategory + "/" + i)" style="font-size: 20px; height: 30px; width:auto; min-width:30px" class="badge badge-light">@i</a>
+                }
+                else
+                {
+                    if ((Model.NavigationModel_.SelectedPage - 3 == i || Model.NavigationModel_.SelectedPage + 3 == i) && i != 1)
+                    {
+                        <a href="" style="font-size: 20px; height: 30px; width:auto; min-width:30px" class="badge badge-light">...</a>
+                    }
+                }
+            }
+        }*@
+    </div>
+</div>

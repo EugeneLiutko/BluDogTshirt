@@ -1,4 +1,6 @@
 ﻿using EuluBlueMarket.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +21,44 @@ namespace EuluBlueMarket.Controllers
         [HttpPost]
         public ActionResult AddLot(MarketItem TempItem, HttpPostedFileBase upload)
         {
-            Console.WriteLine("N1");
+            string fileName = "";
             if (upload != null)
             {
-                Console.WriteLine("N2");
-                string fileName = System.IO.Path.GetFileName(upload.FileName);
+                fileName = System.IO.Path.GetFileName(upload.FileName);
                 upload.SaveAs(Server.MapPath("~/Files/" + fileName));
             }
-            Console.WriteLine("N3");
-            return View("MainPage");
+            else
+            {
+                fileName = "No_Image_Available.png";
+            }
+
+
+            using (MarketItemsContext db = new MarketItemsContext())
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    string nummm = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).Phone;
+                    string uname = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).FirstName;
+                    MarketItem item1 = new MarketItem { Name = TempItem.Name, Description = TempItem.Description, Photo = fileName, UserDetails = uname + " - " + nummm };
+                    db.Products.Add(item1);
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Main", "Market");
         }
         public ActionResult Main()
         {
-            return View("MainPage");
+            InfoForPageProductModel model = new InfoForPageProductModel();
+            using (MarketItemsContext db = new MarketItemsContext())
+            {
+                model.ProductModels = db.Products.ToList();
+                //List<MarketItem> Work = new List<MarketItem>();
+               // Work = model.ProductModels.ToList();
+                //Work.Reverse();
+            }
+
+            return View("Main", model);
         }
         public ActionResult Setting()
         {
@@ -42,7 +69,5 @@ namespace EuluBlueMarket.Controllers
         {
             return View();
         }
-
-        
     }
 }

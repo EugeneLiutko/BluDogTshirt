@@ -1,0 +1,107 @@
+﻿@using EuluBlueMarket.Models
+@model InfoForPageProductModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        body {
+            background-color: paleturquoise;
+        }
+
+        .peep {
+            width: 900px;
+            padding: 40px 10px 10px 10px;
+            background-color: burlywood;
+        }
+
+        .peep2 {
+            width: 900px;
+            height: 140px;
+            background-color: darksalmon;
+        }
+
+        .peep3 {
+            width: 900px;
+            height: 200px;
+            margin-top: 10px;
+            background-color: peru;
+        }
+
+        img {
+            width: 300px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Eulu-Interchange</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item ">
+                    <a class="nav-link" href="@Url.Action("Main", "Market")">Обміняти</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="@Url.Action("Login", "Account")">Увійти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Register", "Account")">Зареєструватися</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div style="padding: 30px;width: 1000px; margin: auto; ">
+        <div class="peep">
+            <ul class="products clearfix align-content-center" style="height: auto">
+                @if (Model != null)
+                {
+                    foreach (MarketItem gpm in Model.ProductModels.Reverse())
+                    {
+                        <li class="product-wrapper">
+                            @*<div class="peep3">*@
+                            <div class="product">
+                                <div class="product-photo">
+                                    <img src="~/Files/@gpm.Photo" alt="" />
+                                </div>
+
+                                <div style="margin:10px;">
+                                    <p style="font-size:13px; text-align:left">@gpm.Name</p>
+                                    <p style="font-size:13px; text-align:left">
+                                        @gpm.Description
+                                    </p>
+                                    <p style="font-size:13px; text-align:left">@gpm.Name @gpm.UserDetails</p>
+                                </div>
+                            </div>
+                            <hr>
+                            @*</div>*@
+                        </li>
+                    }
+                }
+            </ul>
+            @*if (Model != null)
+                {
+                    @Html.Partial("_NavPartial", Model);
+
+                }*@
+
+        </div>
+    </div>
+</body>
+</html>

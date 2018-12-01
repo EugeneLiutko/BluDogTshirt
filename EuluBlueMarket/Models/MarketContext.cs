@@ -10,7 +10,9 @@ namespace EuluBlueMarket.Models
     {
         public MarketContext()
             : base("DbConnection")
-        { }
+        {
+            //Items = new List<MarketItem>
+        }
 
         public DbSet<MarketItem> Items { get; set; }
     }

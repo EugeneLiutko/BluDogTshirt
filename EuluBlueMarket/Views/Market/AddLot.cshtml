@@ -15,7 +15,26 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Eulu-Interchange</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item ">
+                    <a class="nav-link" href="@Url.Action("Main", "Market")">Обміняти</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="@Url.Action("Login", "Account")">Увійти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Register", "Account")">Зареєструватися</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div style="padding:15%; margin:auto;">
         @using (Html.BeginForm("AddLot", "Market", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <input class="form-control form-control-lg" type="text" name="Name" placeholder="Имя лота"><br>

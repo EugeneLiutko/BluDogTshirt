@@ -7,24 +7,26 @@
     ViewBag.Title = "Login";
 }
 
-<h2>Вход на сайт</h2>
+<h2 style="margin-top:40px; margin-left: 15%; margin-right: auto;">Вход на сайт</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <div>
-        @Html.ValidationSummary()
-        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
-        <p>
-            <label>Email</label><br />
-            @Html.EditorFor(x => x.Email)
-        </p>
-        <p>
-            <label>Пароль</label><br />
-            @Html.EditorFor(x => x.Password)
-        </p>
-        <p><button type="submit">Войти</button></p>
-    </div>
-}
+    <div style="padding-left:10px; margin-left: 15%; margin-right: auto;">
+        <div style="padding:5px; margin:auto;">
+            @Html.ValidationSummary()
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+            <p>
+                <label>Email</label><br />
+                @Html.EditorFor(x => x.Email)
+            </p>
+            <p>
+                <label>Пароль</label><br />
+                @Html.EditorFor(x => x.Password)
+            </p>
+            <br />
+            <p><button type="submit">Войти</button></p>
+        </div>
+</div >
+                    }

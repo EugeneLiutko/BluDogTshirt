@@ -12,8 +12,10 @@ using System.Web.Mvc;
 
 namespace EuluBlueMarket.Controllers
 {
+    
     public class AccountController : Controller
     {
+        //public ApplicationUser UserInfoForLots = new ApplicationUser();
         private ApplicationUserManager UserManager
         {
             get
@@ -77,13 +79,15 @@ namespace EuluBlueMarket.Controllers
                 {
                     ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
+                    //UserInfoForLots = user;
+                    var path = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/myfile.txt");
                     AuthenticationManager.SignOut();
                     AuthenticationManager.SignIn(new AuthenticationProperties
                     {
                         IsPersistent = true
                     }, claim);
                     if (String.IsNullOrEmpty(returnUrl))
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Main", "Market");
                     return Redirect(returnUrl);
                 }
             }

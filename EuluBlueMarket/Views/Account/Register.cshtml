@@ -5,14 +5,14 @@
     ViewBag.Title = "Register";
 }
 
-<h2>Registration Qwerty_1234</h2>
+<h2 style="margin-top:40px; margin-left: 15%; margin-right: auto;">Registration Qwerty_1234</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div>
+    <div style="padding-left:40px; margin-left: 15%; margin-right: auto;">
         <hr />
         @Html.ValidationSummary(false)
 
@@ -60,6 +60,7 @@
 
         <div>
             <div>
+                <br />
                 <input type="submit" value="Register" />
             </div>
         </div>
