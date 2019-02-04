@@ -1,20 +1,21 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
-    <li>
+    <li >
         @*Get user by name*@
-        @Html.ActionLink("Hello " + @User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        @*@Html.ActionLink("Hello " + @User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+        <a class="nav-link" href="">@User.Identity.Name</a>
     </li>
     <li>
-        @Html.ActionLink("Log Out", "LogOut", "Account")
+        <a class="nav-link" href="@Url.Action("LogOut", "Account")">Вийти</a>
     </li>
 }
 else
 {
     <li>
-        @Html.ActionLink("Sign Up", "Register", "Account")
+        <a class="nav-link" href="@Url.Action("Login", "Account")">Увійти</a>
     </li>
     <li>
-        @Html.ActionLink("Sign In", "Login", "Account")
+        <a class="nav-link" href="@Url.Action("Register", "Account")">Зареєструватися</a>
     </li>
 }
 

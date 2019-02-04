@@ -14,5 +14,7 @@ namespace EuluBlueMarket.Models
         public string Description { get; set; }
         public string Photo { get; set; }
         public string UserDetails { get; set; }
+        public int Price { get; set; }
+        public string UserID { get; set; }
     }
 }

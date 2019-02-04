@@ -16,13 +16,13 @@
     @Scripts.Render("~/bundles/modernizr")
     <style>
         body {
-            background-color: paleturquoise;
+            background-color: #b3b3ff;
         }
 
         .peep {
             width: 900px;
             padding: 40px 10px 10px 10px;
-            background-color: burlywood;
+            background-color: #f2f2ff;
         }
 
         .peep2 {
@@ -32,21 +32,41 @@
         }
 
         .peep3 {
-            width: 900px;
-            height: 200px;
-            margin-top: 10px;
-            background-color: peru;
+            height: 4px;
+            background-color: black;
+            margin: 25px;
         }
 
         img {
-            width: 300px;
             height: 200px;
         }
+
+        .AddLot {
+            position: fixed;
+            right: 10px;
+            top: 90%;
+            padding: 10px;
+            background: #ffe;
+            border: 1px solid #333;
+        }
+
+        li {
+            list-style-type: none;
+        }
+        /*hr {
+        border:3px;
+        }*/
+
     </style>
 </head>
 
 <body>
 
+    @*Partial view for AddLot and SingOut *@
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a class="AddLot" href="@Url.Action("AddLot", "Market")">Додати оголошення</a>
+    }
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Eulu-Interchange</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,51 +77,240 @@
                 <li class="nav-item ">
                     <a class="nav-link" href="@Url.Action("Main", "Market")">Обміняти</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="@Url.Action("Login", "Account")">Увійти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Register", "Account")">Зареєструватися</a>
-                </li>
+                @{
+                    Html.RenderPartial("_PartialLoginView");
+                }
             </ul>
         </div>
     </nav>
 
     <div style="padding: 30px;width: 1000px; margin: auto; ">
         <div class="peep">
+            <p><input type="checkbox" id="CheckboxSort" name="SortByPrice" type-sort="" value="yes">  Сортувати за ціною</p>
             <ul class="products clearfix align-content-center" style="height: auto">
                 @if (Model != null)
                 {
+                    int CountUsersLots = 0;
+                    string tempid = System.Web.HttpContext.Current.User.Identity.Name;
+
+
+                    foreach (MarketItem gpm in Model.ProductModels.Reverse())
+                    {
+                        if (gpm.UserID == tempid)
+                        {
+                            CountUsersLots = CountUsersLots + 1;
+                        }
+                    }
+
+
+                    foreach (MarketItem gpm in Model.ProductModels.Reverse())
+                    {
+                        if (gpm.UserID == tempid)
+                        {
+                            CountUsersLots = CountUsersLots + 1;
+                        }
+                    }
+
                     foreach (MarketItem gpm in Model.ProductModels.Reverse())
                     {
                         <li class="product-wrapper">
-                            @*<div class="peep3">*@
                             <div class="product">
                                 <div class="product-photo">
                                     <img src="~/Files/@gpm.Photo" alt="" />
                                 </div>
-
                                 <div style="margin:10px;">
                                     <p style="font-size:13px; text-align:left">@gpm.Name</p>
                                     <p style="font-size:13px; text-align:left">
                                         @gpm.Description
                                     </p>
-                                    <p style="font-size:13px; text-align:left">@gpm.Name @gpm.UserDetails</p>
+                                    <p style="font-size:13px; text-align:left"> @gpm.UserDetails</p>
+                                    <div>
+                                        <p style="font-size:13px; text-align:left"> @gpm.Price грн</p>
+                                    </div>
+
                                 </div>
+
                             </div>
-                            <hr>
-                            @*</div>*@
+
+                            <div class="input-group mb-3" style="width:230px;">
+                                @if (gpm.UserID != System.Web.HttpContext.Current.User.Identity.Name)
+                                {
+                                    <select class="custom-select" id="inputGroupSelect01_@gpm.ID">
+                                        <option selected>Ваша пропозиція</option>
+
+
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+
+                                            string UID = System.Web.HttpContext.Current.User.Identity.Name;
+                                            int i = 1;
+
+                                            foreach (MarketItem gpm2 in Model.ProductModels)
+                                            {
+                                                if (gpm2.UserID == UID)
+                                                {
+                                                    if (true)
+                                                    {
+                                                        //check parent post
+                                                    }
+                                                    <option value="@gpm2.ID">@gpm2.Price грн - @gpm2.Name</option>
+                                                    i++;
+                                                }
+
+
+                                            }
+
+                                        }
+
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select class="custom-select" disabled>
+                                        <option selected>Недоступно</option>
+                                    </select>
+                                }
+                            </div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+
+                                if (CountUsersLots > 0 && gpm.UserID != System.Web.HttpContext.Current.User.Identity.Name)
+                                {
+                                    if (true)
+                                    {
+                                        //onclick = "@Url.Action("Exchange", "MarketController")"
+                                        <button type="button" class="btn btn-secondary btnCange" data-OldId="@gpm.ID" data-OldUserId="@gpm.UserID" data-OldPrice="@gpm.Price" data-OldName="@gpm.Name" data-OldUser="@gpm.UserDetails" data-OldPhoto="@gpm.Photo"> Обміняти </button>
+                                    }
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-secondary" disabled> Обміняти </button>
+                                }
+                            }
+                            <div class="peep3"></div>
                         </li>
                     }
                 }
             </ul>
-            @*if (Model != null)
-                {
-                    @Html.Partial("_NavPartial", Model);
-
-                }*@
-
         </div>
     </div>
+
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+
+            @using (Html.BeginForm("Exchange", "Market"))
+            {
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Підтвердити обмін</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <input type="hidden" id="OldMarketItemID" name="OldId" />
+                        <input type="hidden" id="OldMarketItemName" name="OldName" />
+                        <input type="hidden" id="OldMarketItemPrice" name="OldPrice" />
+                        <input type="hidden" id="OldMarketItemUser" name="OldUser" />
+                        <input type="hidden" id="OldMarketItemUserId" name="OldUserId" />
+                        <input type="hidden" id="OldMarketItemPhoro" name="OldPhoto" />
+
+
+                        <input type="hidden" id="MarketItemID" name="NewId" />
+                        <input type="hidden" id="MarketItemName" name="NewName" />
+                        <input type="hidden" id="MarketItemPrice" name="NewPrice" />
+                        <input type="hidden" id="MarketItemUser" name="NewUser" />
+                        <input type="hidden" id="MarketItemUserId" name="NewUserId" />
+                        <input type="hidden" id="MarketItemPhoro" name="NewPhoto" />
+                        
+
+                        @*<input  type="MarketItemID" hidden />*@
+                        @*<input type="MarketItemPrice" hidden />*@
+
+                        Чи ви підтверджуєте обмін?
+                        <br>
+                        <span id="dlg_price"></span>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Закрити</button>
+                        <button type="submit" class="btn btn-success">Підтвердити</button>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(function () {
+            $(".btnCange").on("click", function () {
+
+                var id = $(this).attr("data-OldId");
+                var name = $(this).attr("data-OldName");
+                var price = $(this).attr("data-OldPrice"); 
+                var user = $(this).attr("data-OldUser"); 
+                var userid = $(this).attr("data-OldUserId");
+                var photo = $(this).attr("data-OldPhoto");
+                //alert( name, price, user, userid, photo);
+
+                $("#dlg_price").html("Вибраний товар вартує " + price.toString()+" грн");
+
+                $("#OldMarketItemID").val(id);
+                $("#OldMarketItemName").val(name);
+                $("#OldMarketItemPrice").val(price);
+                $("#OldMarketItemUser").val(user);
+                $("#OldMarketItemUserId").val(userid);
+                $("#OldMarketItemPhoro").val(photo);
+
+
+                //var tempid;
+                //var newid = $(this).attr("data-selectid");
+                //var select_id = document.getElementById("inputGroupSelect01_" + id);
+                //console.log(select_id);
+                //alert(tempid);
+                var group_current_id = "#inputGroupSelect01_" + id;
+                var info_id_select = $(group_current_id + " option:selected").val();
+                alert(info_id_select);
+                var name = $(this).attr("data-name");
+                var uinf = $(this).attr("data-uinf");
+
+                var newid = $(this).attr("data-OldId");
+                var newname = $(this).attr("data-OldName");
+                var newprice = $(this).attr("data-OldPrice");
+                var newuser = $(this).attr("data-OldUser");
+                var newuserid = $(this).attr("data-OldUserId");
+                var newphoto = $(this).attr("data-OldPhoto"); 
+
+                
+                //$("#MarketItemName").val(name);
+                //$("#MarketItemPrice").val(price);
+                //$("#MarketItemUser").val(user);
+                //$("#MarketItemUserId").val(userid);
+                //$("#MarketItemPhoro").val(photo);
+
+                //(info + " / " + name + " / " + uinf + " / " + price );
+                $('#myModal').modal('show');
+
+               
+            });
+
+            //$("#btnSubmitChange").on("click", function () {
+
+            //});
+
+        });
+    </script>
 </body>
 </html>

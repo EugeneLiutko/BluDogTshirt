@@ -25,20 +25,19 @@
                 <li class="nav-item ">
                     <a class="nav-link" href="@Url.Action("Main", "Market")">Обміняти</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="@Url.Action("Login", "Account")">Увійти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Register", "Account")">Зареєструватися</a>
-                </li>
+                @{
+                    Html.RenderPartial("_PartialLoginView");
+                }
             </ul>
         </div>
     </nav>
     <div style="padding:15%; margin:auto;">
         @using (Html.BeginForm("AddLot", "Market", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            <input class="form-control form-control-lg" type="text" name="Name" placeholder="Имя лота"><br>
-            <input class="form-control form-control-lg" type="text" name="Description" placeholder="Описание"><br>
+            <input class="form-control form-control-lg" type="text" name="Name" placeholder="Ім'я товару"><br>
+            <input class="form-control form-control-lg" type="text" name="Description" placeholder="Опис"><br>
+            <input class="form-control form-control-lg" type="text" name="Price" placeholder="Ціна"><br>
+
             <input type="file" name="upload" /><br>
 
             <input type="submit" value="Загрузить" />
